@@ -1,137 +1,83 @@
-# Cadastro de Clientes:
+# A estrutura de um número de conta bancária pode incluir os seguintes elementos:
+# Código do banco: Este é um número único que identifica o banco onde a conta foi criada.  Numero do PyBank 23
+# Código da agência: Identifica a agência específica onde a conta foi criada. 1
+# Número da conta: Este é um número exclusivo que identifica a conta específica de um cliente na agência. 7 digitos
+# Dígitos de controle: Alguns números de conta podem incluir dígitos de verificação, 1
+# que ajudam a garantir a integridade dos dados e detectar erros de digitação.
+# Informações adicionais: Dependendo do banco e do país, pode haver informações adicionais, como um código de filial ou tipo de conta.
+from random import randint
+import shutil
 
-# Criação de contas bancárias para clientes.
-# Armazenamento de informações pessoais, como nome, endereço, CPF, etc.
-# Verificação da autenticidade dos dados do cliente.
-
-import mysql.connector
-from verifica_cpf import validaCpf
-
-
-#Receber o nome do cliente
-def nome_cliente():
-    while True:
-        try:
-            nome = str(input('Insira seu nome: '))
-            resp = str(input('Deseja salvar esse nome? So podera trocar apos analise do departamento![S/N] ' )).upper()
-            if resp in 'SsSimsimSIM':
-                return nome.capitalize()
-        except Exception as e:
-            print(f'Erro ao inserir dado: {e}')
-
-# Recber o email do cliente
-def email_cliente():
-    while True:
-        try:
-            email = str(input('Insira seu email: '))
-            resp = str(input('Confirmar envio do email? [S/N] ' )).upper()
-            if resp in 'SsSimsimSIM':
-                return email
-        except Exception as e:
-            print(f'Erro ao inserir dado: {e}')
-
-# Pede o valor de RG, sendo um valor valido, sem digitos, flag vira True    
-def rg_cliente():
-    flag = False
-    rg_str = ''
-    while flag != True:
-        try:
-            rg = input('Digite seu RG, sem o digito verificador: ').strip() # Elimina os espaços caso o cliente venha a colocar
-            lista = list(rg)
-            # for i in lista:
-            #     lista_rg.append(int(i))
-            if len(lista) < 7:
-                while flag != True:
-                    try:
-                        lista.clear()
-                        rg = input('Digite os digitos exatos, sem o verificador!: ').strip()
-                        lista1 = list(rg)
-                        for i in lista1:
-                            lista.append(str(i))
-                        if len(lista) == 8:
-                            flag = True
-                    except:
-                        print('Digite valores validos')
-        except Exception as e:
-            print(f'Erro ao inserir dado: {e}')
-        else:
-            break
-    return lista
-
-# Função que armazena o CPF em uma lista
-def cpf_cliente():
-    lista_cpf = []
-    while len(lista_cpf) < 11:
-        lista_cpf.clear()
-        # Usa a função do verifica_cpf e valida o cpf
-        try:
-            cpf = input('Digite seu cpf: ')
-            resultado = validaCpf(cpf)
-            if resultado is True:
-                lista_cpf.append(cpf)
-                break
-        except Exception as e:
-            print(f'Erro ao inserir dado: {e}')
-    return lista_cpf
-
-# Função que guarda o CEP em uma lista
-def cep_cliente():
-    lista_cep = []
-    while len(lista_cep) < 8:
-        lista_cep.clear()
-        try:
-            cep = input('Insira seu CEP: ')
-            for i in cep:
-                lista_cep.append(i)
-        except Exception as e:
-            print(f'Erro ao inserir dado: {e}')
-    return lista_cep
-
-
-nome = nome_cliente()
-email = email_cliente()
-rg = rg_cliente()
-cpf = cpf_cliente()
-cep = cep_cliente()
-
-
-cpf_str = ''.join(cpf)
-rg_str = ''.join(rg)
-cep_str = ''.join(cep)
-
-
-def inserir_cliente(nome, cpf, rg, email, cep):
+def tipo_conta():
     try:
-        # Conecte-se ao banco de dados
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="root",
-            database="banco"
-        )
+        modelo_conta_corrente = "\033[1;47m\033[1mBeneficios de uma Conta Corrente\033[0m\033[0m"
+        modelo_conta_poupanca = "\033[1;47m\033[1mBeneficios de uma Conta Poupança\033[0m\033[0m"
+        largura_terminal, _ = shutil.get_terminal_size()
 
-        # Crie um cursor para executar comandos SQL
-        cursor = conn.cursor()
+        modelo_conta_corrente = modelo_conta_corrente.center(largura_terminal)
+        modelo_conta_poupanca = modelo_conta_poupanca.center(largura_terminal)
 
-        # Defina a consulta SQL para inserção de dados
-        sql = "INSERT INTO usuario (nome, cpf, rg, email, cep) VALUES (%s, %s, %s, %s, %s)"
 
-        # Valores a serem inseridos
-        valores = (nome, cpf, rg, email, cep)
+        print()
+        print(f'Tipos de conta disponiveis:')
+        print('-' * largura_terminal)
+        print(modelo_conta_corrente)
+        print('-' * largura_terminal)
+        print()
+        print('\033[1;44m\033[1mNa Conta Corrente você tera esses beneficios:\033[0m\033[0m')
+        print('\033[1;47m\033[1m1° Acesso Fácil aos Fundos:\033[0m\033[0m Uma conta corrente é projetada para facilitar o acesso aos seus fundos.\n'
+            'Você pode fazer saques, transferências, pagamentos e depósitos facilmente.')
+        print()
+        print('\033[1;47m\033[1m2° Pagamentos e Transações:\033[0m\033[0m Uma conta corrente permite fazer pagamentos de contas, transferências bancárias e transações com cartão de débito\n'
+            'É uma conta ideal para as despesas diárias.')
+        print()
+        print('\033[1;47m\033[1m3° Cheques:\033[0m\033[0m Muitas contas correntes permitem o uso de cheques, o que é útil para pagar contas e fazer compras.')
+        print()
+        print('\033[1;47m\033[1m4° Linhas de Crédito:\033[0m\033[0m Alguns bancos oferecem linhas de crédito vinculadas à conta corrente, que podem ser úteis em momentos de emergência.')
+        print()
+        print('\033[1;47m\033[1m5° Conveniência:\033[0m\033[0m Uma conta corrente geralmente oferece serviços bancários online e móveis para facilitar o gerenciamento de suas finanças.')
+        print()
+        print('\033[1;47m\033[1m6° Facilidade de Pagamento:\033[0m\033[0m Com uma conta corrente, você pode configurar débitos automáticos para pagamentos regulares,\ncomo contas de serviços públicos e empréstimos.')
+        print()
 
-        # Execute a consulta SQL
-        cursor.execute(sql, valores)
+        print('-' * largura_terminal)
+        print(modelo_conta_poupanca)
+        print('-' * largura_terminal)
+        print('\033[1;44m\033[1mNa Conta Poupança você tera esses beneficios:\033[0m\033[0m')
+        print('\033[1;47m\033[1m1° Juros:\033[0m\033[0m Uma conta poupança geralmente paga juros sobre o saldo mantido na conta. Isso permite que seu dinheiro cresça ao longo do tempo.')
+        print()
+        print('\033[1;47m\033[1m2° Economia de Curto Prazo:\033[0m\033[0m Contas poupança são ideais para economias de curto prazo, como para objetivos de curto prazo ou para criar um fundo de emergência.')
+        print()
+        print('\033[1;47m\033[1m3° Segurança:\033[0m\033[0m O dinheiro em uma conta poupança é geralmente considerado mais seguro do que manter grandes quantias de dinheiro em casa.')
+        print()
+        print('\033[1;47m\033[1m4° Reserva de Emergência:\033[0m\033[0m Uma conta poupança pode ser usada para criar uma reserva de emergência para situações inesperadas.')
+        print()
+        print('\033[1;47m\033[1m5°Acessibilidade:\033[0m\033[0m Os fundos em uma conta poupança geralmente são acessíveis quando você precisar deles, embora possa haver limites em saques em alguns casos.')
+        print()
+        print('\033[1;47m\033[1m6° Disciplina Financeira:\033[0m\033[0m Uma conta poupança ajuda a separar seu dinheiro de gastos diários, promovendo a disciplina financeira.')
+        print()
+        
+        while True:
+            tipo = input('Insira um tipo de conta? [CC/CP] ').strip().upper()
+            if tipo == 'CC':
+                return tipo
+            elif tipo == 'CP':
+                return tipo
+            else:
+                continue
+    except Exception as e:
+        print(f'Erro ao inserir dado: {e}')
+    return tipo
 
-        # Faça o commit para salvar as alterações no banco de dados
-        conn.commit()
 
-        # Feche o cursor e a conexão
-        cursor.close()
-        conn.close()
-
-        print("Dados do cliente inseridos com sucesso!")
-
-    except mysql.connector.Error as e:
-        print(f"Erro ao inserir dados do cliente: {e}")
-
-inserir_cliente(nome, cpf_str, rg_str, email, cep_str)
+def conta():
+    lista = []
+    cod_banco = '23'
+    cod_agencia = '1'
+    num_conta = str(randint(1000, 9999))
+    dig_controle = str(randint(1, 9))
+    lista.append(cod_banco)
+    lista.append(cod_agencia)
+    lista.append(num_conta)
+    conta_banco = ''.join(lista)
+    return conta_banco, dig_controle
