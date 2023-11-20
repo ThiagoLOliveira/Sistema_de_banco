@@ -106,7 +106,7 @@ def gera_cadastro():
                     telefone = int(input('Insira seu telefone: '))
                 else:
                     for i in telefone:
-                        lista.append(i)
+                        lista.append(str(i))
                     break
         except Exception as e:
             print(f'Ocorreu o seguinte erro: {e}')
