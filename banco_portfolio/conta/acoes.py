@@ -1,6 +1,6 @@
 from principal import chave, entrada
 from cliente import gera_cadastro
-from comandos import depositar
+from comandos import depositar, saque
 
 import shutil
 
@@ -41,7 +41,15 @@ try:
                     if valor < 0:
                         print('Digite um valor valido!')
                     else:
-                        depositar(logar, valor)
+                        depositar(logar, valor, 1)
+                    resp = str('Deseja depositar mais algum valor? [S/N]').upper()
+                    if resp not in 'SsSimSIM':
+                        break
+                    else:
+                        continue
+            if func == 2:
+                while True:
+                    saque(logar)
                     resp = str('Deseja depositar mais algum valor? [S/N]').upper()
                     if resp not in 'SsSimSIM':
                         break
