@@ -76,7 +76,6 @@ def entrada(id):
                 senha_entrada.append(i)
             verifica_senha = ''.join(senha_entrada)
             if entrada_senha == verifica_senha:
-                print('Bem-vindo ao Banco')
                 flag = True
             else:
                 print('Senha incorreta')

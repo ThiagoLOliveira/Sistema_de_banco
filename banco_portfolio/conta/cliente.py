@@ -14,8 +14,8 @@ def gera_cadastro():
         while True:
             try:
                 nome = str(input('Insira seu nome: ')).strip()
-                resp = str(input('Deseja salvar esse nome? So podera trocar apos analise do departamento![S/N] ' )).upper().strip()
-                if resp in 'SsSimsimSIM':
+                resp = str(input('Deseja salvar esse nome? So podera trocar apos analise do departamento![Sim/Não] ' )).upper().strip()
+                if resp == 'sim':
                     return nome.capitalize()
             except Exception as e:
                 print(f'Erro ao inserir dado: {e}')
@@ -26,7 +26,7 @@ def gera_cadastro():
             try:
                 email = str(input('Insira seu email: ')).strip()
                 resp = str(input('Confirmar envio do email? [S/N] ' )).upper().strip()
-                if resp in 'SsSimsimSIM':
+                if resp == 'sim':
                     return email
             except Exception as e:
                 print(f'Erro ao inserir dado: {e}')
@@ -107,7 +107,6 @@ def gera_cadastro():
                 else:
                     for i in telefone:
                         lista.append(str(i))
-                    break
         except Exception as e:
             print(f'Ocorreu o seguinte erro: {e}')
         return lista
